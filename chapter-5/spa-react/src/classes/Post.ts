@@ -1,6 +1,6 @@
 export class Post {
-    private _id;
-    private _title;
+    private _id : number;
+    private _title : string;
     constructor (id : number, title : string) {
       this._id = id;
       this._title = title;
