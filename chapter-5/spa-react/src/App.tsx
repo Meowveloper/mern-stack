@@ -5,15 +5,21 @@ import ModalManager from "./classes/ModalManager";
 import { useState } from "react";
 
 function App() {
-	const [modalManager, setModalManager] = useState(new ModalManager(false));
+	const [modalManager, setModalManager] = useState<ModalManager>(new ModalManager(false));
 	return (
 			<>
-				<Navbar></Navbar>
+				<Navbar modalManager={modalManager} setModalManager={setModalManager}></Navbar>
 				<main>
 					<PostList classes="mt-5"></PostList>
 				</main>
 				{ modalManager.show && <Modal>
-					<div className='w-[30%] bg-white shadow-sm rounded-lg p-9'>Zoom Class is available now</div>
+					<div className='w-[30%] bg-white shadow-sm rounded-lg p-9'>
+						Zoom Class is available now
+						<div>
+							<button onClick={() => { modalManager.control(false, setModalManager) }} className='bg-green-300 w-[151px] h-[44px]'>Close Modal</button>
+						</div>		
+					</div>
+					
 				</Modal> }
 
 			</>
