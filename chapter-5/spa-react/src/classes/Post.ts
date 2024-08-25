@@ -1,9 +1,16 @@
+export enum Status {
+	Ongoing = 'ongoing',
+	Upcoming = 'upcoming',
+	Dropped = 'dropped'
+}
 export class Post {
     private _id : number;
     private _title : string;
-    constructor (id : number, title : string) {
+	private _status : Status;
+    constructor (id : number, title : string, status : Status) {
       this._id = id;
       this._title = title;
+	  this._status = status;
     }
   
     get id () : number {
@@ -14,8 +21,16 @@ export class Post {
       return this._title;
     }
 
+	get status () : Status {
+		return this._status;
+	}
+
 	setTitle (title : string, setState : React.Dispatch<React.SetStateAction<Post>>) : void {
-		setState(prev => new Post(prev.id, title));
+		setState(prev => new Post(prev.id, title, prev.status));
+	}
+
+	setStatus (status : Status, setState : React.Dispatch<React.SetStateAction<Post>>) : void {
+		setState((prev : Post) => new Post(prev.id, prev.title, status));
 	}
   }
   

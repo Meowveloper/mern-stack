@@ -4,11 +4,11 @@ import PostList from "./components/post/PostList";
 import ModalManager from "./classes/ModalManager";
 import { useState } from "react";
 import PostForm from './components/post/Form';
-import { Post, Posts } from './classes/Post';
+import { Post, Posts , Status} from './classes/Post';
 function App() {
 	const [modalManager, setModalManager] = useState<ModalManager>(new ModalManager(false));
 	
-    const [ posts, setPosts ] = useState<Posts>(new Posts( [ new Post(1, 'Post 1'), new Post(2, 'Post 2'), new Post(3, 'Post 3') ] ));
+    const [ posts, setPosts ] = useState<Posts>(new Posts( [ new Post(1, 'Post 1', Status.Ongoing), new Post(2, 'Post 2', Status.Dropped), new Post(3, 'Post 3', Status.Upcoming) ] ));
 	return (
 			<>
 				<Navbar modalManager={modalManager} setModalManager={setModalManager}></Navbar>
