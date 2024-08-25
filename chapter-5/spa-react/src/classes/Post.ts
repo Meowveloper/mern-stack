@@ -13,6 +13,10 @@ export class Post {
     get title() : string {
       return this._title;
     }
+
+	setTitle (title : string, setState : React.Dispatch<React.SetStateAction<Post>>) : void {
+		setState(prev => new Post(prev.id, title));
+	}
   }
   
 export class Posts {
@@ -28,4 +32,7 @@ export class Posts {
     deletePost(id : number, setState : React.Dispatch<React.SetStateAction<Posts>>) : void {
       setState((prevPosts: Posts) => new Posts(prevPosts.posts.filter((item : Post) => item.id !== id)));
     }
+	addPost(post : Post, setState : React.Dispatch<React.SetStateAction<Posts>>) : void {
+		setState((prev : Posts) => new Posts([...prev.posts, post]));
+	}
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalManager from "../classes/ModalManager";
+import ModalManager from "../../classes/ModalManager";
 interface Props {
 	modalManager : ModalManager;
 	setModalManager : React.Dispatch<React.SetStateAction<ModalManager>>; 
@@ -11,7 +11,7 @@ export default function Navbar(props : Props) {
         <ul className='flex justify-start items-center gap-4'>
           <li>Home</li>
           <li>Posts</li>
-		  <li className='cursor-pointer' onClick={ () => { props.modalManager.control(true, props.setModalManager) } }>Sign</li>
+		  <li className='cursor-pointer' onClick={ () => { props.modalManager.control(true, props.setModalManager) } }>Create Post</li>
         </ul>
     </nav>
   )
