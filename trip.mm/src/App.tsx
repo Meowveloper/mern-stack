@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-
+import TripList from './components/trip/List';
 function App() {
   return (
-   <div className="text-green-500">Hello</div> 
+	  <TripList></TripList>
   );
 }
 
