@@ -1,13 +1,20 @@
 import apiPrefix from '../../data/apiPrefix';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useCallback } from 'react';
 import Trips from '../../classes/Trips';
 import Trip from '../../classes/Trip';
+enum Location {
+	Myanmar = "Myanmar", 
+	Thailand = "Thailand"
+}
 export default function TripList() {
-	const [ trips, setTrips ] = useState(new Trips({} as Trip[]));	
+	const [ trips, setTrips ] = useState<Trips>(new Trips([] as Trip[]));	
+	const [ url, setUrl ] = useState<string>(`${apiPrefix}/trips`);
 
-	useEffect(function () {
+	const fetchTrips = useCallback(function () {
 
-		fetch(`${apiPrefix}/trips`).then(res => {
+		console.log('useEffect Run');
+
+		fetch(url).then(res => {
 
 			return res.json();
 
@@ -17,12 +24,22 @@ export default function TripList() {
 
 		});
 
-	}, []);
+	}, [url]);
+
+	useEffect(function () {
+
+		fetchTrips();	
+
+	}, [fetchTrips]);
 
 	return (
 		<div>
 			<div className="font-bold text-[30px]">Ready to Go</div>
-
+			<div>
+				<button className="border border-black me-2" onClick={() => { setUrl(`${apiPrefix}/trips`); }}>All</button>
+				<button className="border border-black me-2" onClick={() => { setUrl(`${apiPrefix}/trips?location=${Location.Myanmar}`); }}>Trips in Myanmar</button>
+				<button className="border border-black me-2" onClick={() => { setUrl(`${apiPrefix}/trips?location=${Location.Thailand}`); }}>Trips in Thailand</button>
+			</div>
 			{ !!trips.trips.length && trips.trips.map((item : Trip, i : number) => (
 				<div key={item.id}>
 					<div className="font-bold text-[20px]">
