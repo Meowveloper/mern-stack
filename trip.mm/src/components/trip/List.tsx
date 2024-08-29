@@ -1,5 +1,5 @@
 import apiPrefix from '../../data/apiPrefix';
-import React, { useEffect, useState , useCallback } from 'react';
+import React, { useEffect, useState , useCallback , useRef } from 'react';
 import Trips from '../../classes/Trips';
 import Trip from '../../classes/Trip';
 enum Location {
@@ -9,7 +9,6 @@ enum Location {
 export default function TripList() {
 	const [ trips, setTrips ] = useState<Trips>(new Trips([] as Trip[]));	
 	const [ url, setUrl ] = useState<string>(`${apiPrefix}/trips`);
-
 	const fetchTrips = useCallback(function () {
 
 		console.log('useEffect Run');
@@ -27,7 +26,6 @@ export default function TripList() {
 	}, [url]);
 
 	useEffect(function () {
-
 		fetchTrips();	
 
 	}, [fetchTrips]);
