@@ -34,21 +34,6 @@ class Todo {
 	setCompleted(completed : boolean , setState : React.Dispatch<React.SetStateAction<Todo>>) : void {
 		setState((prev : Todo) => new Todo(prev.id, prev.title, completed));
 	}
-
-	updateTodo(todo : Todo , setState : React.Dispatch<React.SetStateAction<Todo>>) : void {
-		fetch(`${apiPrefix}/todos/${todo.id}`, {
-			method : "PATCH", 
-			headers : {
-				'Content-Type' : 'application/json'
-			}, 
-			body : JSON.stringify({ id : todo.id, title : todo.title, completed : todo.completed })
-		}).then(() => {
-			setState(todo);
-		}).catch(error => {
-			console.error(error);
-			alert("Error Updating Todo");
-		});
-	}
 }
 
 export default Todo;

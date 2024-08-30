@@ -9,11 +9,12 @@ interface Props {
 export default function TodoForm (props : Props) {
 	const [ todo, setTodo ] = useState<Todo>(new Todo( `${new Date().getTime()}`, '', false));	
 
-	function handleSubmit (e : FormEvent) {
+	async function handleSubmit (e : FormEvent) {
 		e.preventDefault();
 		todo.setId(`${new Date().getTime()}`, setTodo);
-		props.todos.addTodos(todo, props.setTodos, `${apiPrefix}/todos`);
+		await props.todos.addTodos(todo, props.setTodos, `${apiPrefix}/todos`);
 		todo.setTitle('', setTodo);
+		console.log("the todos", props.todos.todos);
 	}
 
 	return (
