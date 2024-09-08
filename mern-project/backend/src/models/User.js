@@ -66,5 +66,19 @@ UserSchema.statics.register = function (name, email, password) {
         return user;
     });
 };
+UserSchema.statics.login = function (email, password) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const user = yield this.findOne({ email: email });
+        if (!user) {
+            throw new Error("User with this email does not exist");
+        }
+        if (yield bcrypt.compare(password, user.password)) {
+            return user;
+        }
+        else {
+            throw new Error("Incorrect password");
+        }
+    });
+};
 const User = mongoose_1.default.model("User", UserSchema);
 exports.default = User;

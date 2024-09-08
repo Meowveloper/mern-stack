@@ -12,6 +12,7 @@ export interface IUser extends Document {
 
 interface IUserModel extends Model<IUser> {
     register(name: string, email: string, password: string): Promise<IUser>;
+    login(email : string, password : string) : Promise<IUser>;
 }
 
 const UserSchema = new Schema<IUser>(
@@ -48,6 +49,19 @@ UserSchema.statics.register = async function (name: IUser["name"], email: IUser[
     await user.save();
     return user;
 };
+
+UserSchema.statics.login = async function (email : IUser['email'], password : IUser['password']) : Promise<IUser> {
+    const user : IUser = await this.findOne( { email : email } );
+    if(!user) {
+        throw new Error("User with this email does not exist");
+    }
+
+    if(await bcrypt.compare(password, user.password)) {
+        return user;
+    } else {
+        throw new Error("Incorrect password");
+    }
+}
 
 const User: IUserModel = mongoose.model<IUser, IUserModel>("User", UserSchema);
 export default User;

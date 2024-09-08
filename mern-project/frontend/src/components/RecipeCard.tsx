@@ -11,6 +11,7 @@ export default function RecipeCard({ item, deleteRecipe } : Props) {
     const navigate = useNavigate();
     return (
         <div className="bg-white rounded-card shadow p-5 space-y-4">
+            <img src={import.meta.env.VITE_BACKEND_URL + item.image} alt="" className="rounded-card" />
             <div className="text-h1 font-bold text-brand">{item.title}</div>
             <div>Description : </div>
             <div>{item.description}</div>

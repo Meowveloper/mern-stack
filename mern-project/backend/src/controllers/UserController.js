@@ -14,17 +14,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
 const User_1 = __importDefault(require("../models/User"));
-const generateToken_1 = __importDefault(require("../helpers/generateToken"));
-const bcrypt = require("bcrypt");
+const generateToken_1 = require("../helpers/generateToken");
 const UserController = {
+    me: (req, res) => {
+        return res.status(200).send({
+            data: req.user,
+            msg: 'logged in !!'
+        });
+    },
     login: (req, res) => {
-        res.send({ msg: "Login Api Hit" });
+        User_1.default.login(req.body.email, req.body.password).then((user) => {
+            const token = (0, generateToken_1.setHTTPOnlyToken)(user._id, res);
+            return res.status(200).send({
+                msg: "Successfully login",
+                data: user,
+                token
+            });
+        }).catch(e => {
+            return res.status(500).send({
+                msg: "Error Login !!",
+                error: e instanceof Error ? e.message : "Unknown error"
+            });
+        });
     },
     register: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const user = yield User_1.default.register(req.body.name, req.body.email, req.body.password);
-            const token = (0, generateToken_1.default)(user._id);
-            res.cookie('token', token);
+            const token = (0, generateToken_1.setHTTPOnlyToken)(user._id, res);
             return res.status(200).send({
                 msg: "Successfully registered",
                 data: user,
@@ -47,5 +63,9 @@ const UserController = {
             }
         }
     }),
+    logout: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        res.cookie("token", '', { maxAge: 1 });
+        return res.status(200).send({ msg: 'Loggedout' });
+    })
 };
 exports.default = UserController;
